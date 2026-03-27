@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Predictor Pro</title>
+    <title>Aviator Predictor Pro</title>
     <style>
         :root {
-            --bg-gray: #f2f2f2;
+            --bg-gray: #f8f9fa;
             --card-bg: #ffffff;
             --input-bg: #e0e6e2;
             --text-green: #2e7d32;
@@ -14,50 +14,35 @@
             --primary-red: #d32f2f;
         }
 
-        body { font-family: sans-serif; background-color: var(--bg-gray); display: flex; justify-content: center; padding: 10px; margin: 0; }
-        .app-container { width: 100%; max-width: 380px; text-align: center; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-gray); display: flex; justify-content: center; padding: 10px; margin: 0; }
+        .app-container { width: 100%; max-width: 400px; text-align: center; }
 
-        .tabs { display: flex; background: #fff; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; }
-        .tab { flex: 1; padding: 10px; font-size: 12px; font-weight: bold; border: none; background: none; color: #777; cursor: pointer; }
-        .tab.active { background-color: var(--primary-red); color: white; }
-
-        h1 { font-size: 24px; color: var(--primary-red); margin: 10px 0 5px 0; }
-        .subtitle { color: #888; font-size: 13px; margin-bottom: 20px; }
-
-        .card { background: var(--card-bg); border-radius: 25px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .card { background: var(--card-bg); border-radius: 25px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 20px; }
 
         label { display: block; font-size: 11px; font-weight: bold; color: #555; margin-bottom: 8px; text-align: left; padding-left: 10px; }
 
-        /* Natao INPUT fa tsy DIV intsony mba ho azo kitihina */
         .input-box {
-            width: 100%;
-            background-color: var(--input-bg);
-            border: none;
-            border-radius: 15px;
-            padding: 15px;
-            font-size: 26px;
-            font-weight: bold;
-            color: var(--text-green);
-            text-align: center;
-            margin-bottom: 20px;
-            box-sizing: border-box;
-            outline: none;
+            width: 100%; background-color: var(--input-bg); border: none; border-radius: 15px;
+            padding: 15px; font-size: 26px; font-weight: bold; color: var(--text-green);
+            text-align: center; margin-bottom: 20px; box-sizing: border-box; outline: none;
         }
 
         .btn-calculer {
-            width: 100%; padding: 15px; border-radius: 15px; border: none;
+            width: 100%; padding: 16px; border-radius: 15px; border: none;
             background: linear-gradient(to right, #b71c1c, #2e7d32);
             color: white; font-size: 18px; font-weight: bold; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
         }
 
-        .timer-badge { display: inline-block; border: 1.5px solid #999; border-radius: 8px; padding: 3px 12px; font-size: 14px; margin-top: 15px; font-weight: bold; }
+        .timer-badge { display: inline-block; border: 1.5px solid #ccc; border-radius: 8px; padding: 4px 15px; font-size: 14px; margin-top: 15px; font-weight: bold; background: #fff; }
 
-        /* Miafina ny valiny amin'ny voalohany */
-        #results-section { display: none; }
+        #results-section { display: none; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .results-title { font-size: 13px; font-weight: bold; color: #666; margin-bottom: 10px; border-bottom: 2px solid var(--primary-red); display: inline-block; }
+        .results-title { font-size: 13px; font-weight: bold; color: #666; margin-bottom: 15px; border-bottom: 2px solid var(--primary-red); display: inline-block; }
+        
         .prediction-list { list-style: none; padding: 0; margin: 15px 0; }
-        .prediction-list li { font-size: 24px; font-weight: bold; color: var(--text-green); margin: 12px 0; }
+        .prediction-list li { font-size: 26px; font-weight: bold; color: var(--text-green); margin: 15px 0; border-bottom: 1px dashed #eee; padding-bottom: 5px; }
 
         .footer-info { display: flex; justify-content: space-between; margin-top: 10px; font-weight: bold; font-size: 13px; }
         .green-text { color: var(--text-green); }
@@ -68,30 +53,20 @@
 <body>
 
 <div class="app-container">
-    <div class="tabs">
-        <button class="tab active">✈️ AVIATOR</button>
-        <button class="tab">🚀 COSMOS</button>
-    </div>
-
-    <h1>✈️ AVIATOR ⭐️</h1>
-    <div class="subtitle">Prédiction Aviator Studio</div>
-
     <div class="card">
         <label>🕒 HEURE DU DÉPART</label>
-        <input type="text" class="input-box" id="input-time" value="02 : 20">
+        <input type="text" class="input-box" id="input-time" placeholder="HH:MM" value="06:00">
 
         <label>🎯 MULTIPLICATEUR CIBLE (+2.00)</label>
-        <input type="text" class="input-box" id="input-mult" value="4 . 11">
+        <input type="text" class="input-box" id="input-mult" value="7.78">
 
         <button class="btn-calculer" onclick="calculate()">🔮 CALCULER</button>
-
         <div class="timer-badge" id="current-clock">00:00:00</div>
     </div>
 
     <div class="card" id="results-section">
         <div class="results-title">✋ HEURES PRÉDITES</div>
-        <ul class="prediction-list" id="prediction-list">
-            </ul>
+        <ul class="prediction-list" id="prediction-list"></ul>
 
         <div class="footer-info">
             <span style="color:#aaa;">SÉCURITÉ DES MISES</span>
@@ -112,24 +87,48 @@
     // Fampisehoana ny ora 24h
     function updateClock() {
         const now = new Date();
-        document.getElementById('current-clock').innerText = 
-            now.toLocaleTimeString('fr-FR', { hour12: false });
+        const h = String(now.getHours()).padStart(2, '0');
+        const m = String(now.getMinutes()).padStart(2, '0');
+        const s = String(now.getSeconds()).padStart(2, '0');
+        document.getElementById('current-clock').innerText = `${h}:${m}:${s}`;
     }
     setInterval(updateClock, 1000);
     updateClock();
 
-    // Rehefa mitsindry "CALCULER"
     function calculate() {
-        // Mampiseho ny faritra misy ny valiny
-        document.getElementById('results-section').style.display = 'block';
+        const inputVal = document.getElementById('input-time').value;
+        const parts = inputVal.split(':');
         
-        // Eto no asiana ny lojika hamoronana ora vaovao (ohatra fotsiny ireto)
+        if (parts.length < 2) {
+            alert("Azafady, ampidiro HH:MM (ohatra: 06:01)");
+            return;
+        }
+
+        let h = parseInt(parts[0]);
+        let m = parseInt(parts[1]);
+
+        document.getElementById('results-section').style.display = 'block';
         const list = document.getElementById('prediction-list');
-        list.innerHTML = `
-            <li>1. 02:23:05</li>
-            <li>2. 02:24:39</li>
-            <li>3. 02:26:45</li>
-        `;
+        list.innerHTML = ""; 
+
+        // Elanelana minitra kisendrasendra
+        let baseMins = [2, 5, 8]; 
+
+        baseMins.forEach((gap, i) => {
+            let resM = m + gap + Math.floor(Math.random() * 2); // Ampiana kely random
+            let resH = h;
+            
+            if (resM >= 60) {
+                resM -= 60;
+                resH = (resH + 1) % 24;
+            }
+
+            const hh = String(resH).padStart(2, '0');
+            const mm = String(resM).padStart(2, '0');
+            const ss = String(Math.floor(Math.random() * 60)).padStart(2, '0');
+
+            list.innerHTML += `<li>${i + 1}. ${hh}:${mm}:${ss}</li>`;
+        });
     }
 </script>
 
