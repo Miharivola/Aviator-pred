@@ -3,51 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aviator Predictor Pro</title>
+    <title>Aviator Predictor Pro V3</title>
     <style>
         :root {
-            --bg-gray: #f8f9fa;
+            --bg-gray: #f4f4f4;
             --card-bg: #ffffff;
-            --input-bg: #e0e6e2;
+            --input-bg: #e8eee9;
             --text-green: #2e7d32;
             --text-red: #c62828;
             --primary-red: #d32f2f;
         }
 
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-gray); display: flex; justify-content: center; padding: 10px; margin: 0; }
-        .app-container { width: 100%; max-width: 400px; text-align: center; }
+        .app-container { width: 100%; max-width: 380px; text-align: center; }
 
-        .card { background: var(--card-bg); border-radius: 25px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 20px; }
+        .card { background: var(--card-bg); border-radius: 25px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 15px; }
 
-        label { display: block; font-size: 11px; font-weight: bold; color: #555; margin-bottom: 8px; text-align: left; padding-left: 10px; }
+        label { display: block; font-size: 11px; font-weight: bold; color: #666; margin-bottom: 5px; text-align: left; padding-left: 10px; }
 
         .input-box {
-            width: 100%; background-color: var(--input-bg); border: none; border-radius: 15px;
-            padding: 15px; font-size: 26px; font-weight: bold; color: var(--text-green);
-            text-align: center; margin-bottom: 20px; box-sizing: border-box; outline: none;
+            width: 100%; background-color: var(--input-bg); border: 2px solid transparent; border-radius: 15px;
+            padding: 12px; font-size: 24px; font-weight: bold; color: var(--text-green);
+            text-align: center; margin-bottom: 15px; box-sizing: border-box; outline: none; transition: 0.3s;
         }
+        .input-box:focus { border-color: var(--text-green); background: #fff; }
 
         .btn-calculer {
-            width: 100%; padding: 16px; border-radius: 15px; border: none;
+            width: 100%; padding: 15px; border-radius: 15px; border: none;
             background: linear-gradient(to right, #b71c1c, #2e7d32);
-            color: white; font-size: 18px; font-weight: bold; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
+            color: white; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
-        .timer-badge { display: inline-block; border: 1.5px solid #ccc; border-radius: 8px; padding: 4px 15px; font-size: 14px; margin-top: 15px; font-weight: bold; background: #fff; }
+        .timer-badge { display: inline-block; border: 1.5px solid #bbb; border-radius: 8px; padding: 4px 12px; font-size: 14px; margin-top: 15px; font-weight: bold; background: #fff; }
 
-        #results-section { display: none; animation: fadeIn 0.5s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* Section Valiny */
+        #results-section { display: none; animation: slideUp 0.4s ease-out; }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        .results-title { font-size: 13px; font-weight: bold; color: #666; margin-bottom: 15px; border-bottom: 2px solid var(--primary-red); display: inline-block; }
+        .results-title { font-size: 13px; font-weight: bold; color: #444; border-bottom: 2px solid var(--primary-red); display: inline-block; margin-bottom: 15px; }
         
-        .prediction-list { list-style: none; padding: 0; margin: 15px 0; }
-        .prediction-list li { font-size: 26px; font-weight: bold; color: var(--text-green); margin: 15px 0; border-bottom: 1px dashed #eee; padding-bottom: 5px; }
+        .prediction-list { list-style: none; padding: 0; margin: 10px 0; }
+        .prediction-list li { font-size: 26px; font-weight: bold; color: var(--text-green); margin: 10px 0; letter-spacing: 1px; }
 
-        .footer-info { display: flex; justify-content: space-between; margin-top: 10px; font-weight: bold; font-size: 13px; }
+        .footer-info { display: flex; justify-content: space-between; margin-top: 8px; font-weight: bold; font-size: 13px; border-top: 1px solid #f0f0f0; padding-top: 5px; }
         .green-text { color: var(--text-green); }
+        .orange-text { color: #ef6c00; }
         .red-text { color: var(--text-red); }
-        .orange-text { color: #f57c00; }
     </style>
 </head>
 <body>
@@ -55,10 +56,10 @@
 <div class="app-container">
     <div class="card">
         <label>🕒 HEURE DU DÉPART</label>
-        <input type="text" class="input-box" id="input-time" placeholder="HH:MM" value="06:00">
+        <input type="text" class="input-box" id="input-time" value="06:00">
 
         <label>🎯 MULTIPLICATEUR CIBLE (+2.00)</label>
-        <input type="text" class="input-box" id="input-mult" value="7.78">
+        <input type="number" step="0.01" class="input-box" id="input-mult" value="7.78">
 
         <button class="btn-calculer" onclick="calculate()">🔮 CALCULER</button>
         <div class="timer-badge" id="current-clock">00:00:00</div>
@@ -69,22 +70,22 @@
         <ul class="prediction-list" id="prediction-list"></ul>
 
         <div class="footer-info">
-            <span style="color:#aaa;">SÉCURITÉ DES MISES</span>
-            <span class="green-text">x3.16</span>
+            <span style="color:#999;">SÉCURITÉ DES MISES</span>
+            <span class="green-text" id="val-securite">x0.00</span>
         </div>
         <div class="footer-info">
-            <span style="color:#aaa;">CÔTE MOYEN</span>
-            <span class="orange-text">x8.50</span>
+            <span style="color:#999;">CÔTE MOYEN</span>
+            <span class="orange-text" id="val-moyen">x0.00</span>
         </div>
         <div class="footer-info">
-            <span style="color:#aaa;">CÔTE RISQUÉ</span>
-            <span class="red-text">x13.18</span>
+            <span style="color:#999;">CÔTE RISQUÉ</span>
+            <span class="red-text" id="val-risque">x0.00</span>
         </div>
     </div>
 </div>
 
 <script>
-    // Fampisehoana ny ora 24h
+    // 1. Fanavaozana ny famantaranandro (24h)
     function updateClock() {
         const now = new Date();
         const h = String(now.getHours()).padStart(2, '0');
@@ -95,40 +96,45 @@
     setInterval(updateClock, 1000);
     updateClock();
 
+    // 2. Algorithm fanaovana kajy
     function calculate() {
-        const inputVal = document.getElementById('input-time').value;
-        const parts = inputVal.split(':');
+        const timeVal = document.getElementById('input-time').value;
+        const multVal = parseFloat(document.getElementById('input-mult').value) || 2.00;
+        const parts = timeVal.split(':');
         
         if (parts.length < 2) {
-            alert("Azafady, ampidiro HH:MM (ohatra: 06:01)");
+            alert("Ampidiro ora tsara (HH:MM)");
             return;
         }
 
+        // Mampiseho ny valiny
+        document.getElementById('results-section').style.display = 'block';
+
+        // Kajy ny ora 3 (Heures Prédites)
         let h = parseInt(parts[0]);
         let m = parseInt(parts[1]);
-
-        document.getElementById('results-section').style.display = 'block';
         const list = document.getElementById('prediction-list');
         list.innerHTML = ""; 
 
-        // Elanelana minitra kisendrasendra
-        let baseMins = [2, 5, 8]; 
-
-        baseMins.forEach((gap, i) => {
-            let resM = m + gap + Math.floor(Math.random() * 2); // Ampiana kely random
+        [3, 6, 9].forEach((gap, i) => {
+            let resM = m + gap + Math.floor(Math.random() * 2); 
             let resH = h;
+            if (resM >= 60) { resM -= 60; resH = (resH + 1) % 24; }
             
-            if (resM >= 60) {
-                resM -= 60;
-                resH = (resH + 1) % 24;
-            }
-
             const hh = String(resH).padStart(2, '0');
             const mm = String(resM).padStart(2, '0');
             const ss = String(Math.floor(Math.random() * 60)).padStart(2, '0');
-
             list.innerHTML += `<li>${i + 1}. ${hh}:${mm}:${ss}</li>`;
         });
+
+        // Kajy ny Côtes (Dynamic Algorithm)
+        const securite = (multVal * 0.45).toFixed(2);
+        const moyen = (multVal * (0.85 + Math.random() * 0.3)).toFixed(2);
+        const risque = (multVal * (1.4 + Math.random() * 1.5)).toFixed(2);
+
+        document.getElementById('val-securite').innerText = `x${securite}`;
+        document.getElementById('val-moyen').innerText = `x${moyen}`;
+        document.getElementById('val-risque').innerText = `x${risque}`;
     }
 </script>
 
